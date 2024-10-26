@@ -1,4 +1,4 @@
-from uuid import UUID
+from uuid import UUID, uuid4
 from app.model.table_base import TableBase
 from sqlmodel import Field, SQLModel
 from datetime import datetime
@@ -18,15 +18,14 @@ class RecoleccionCreate(RecoleccionBase):
     pass
 
 class RecoleccionUpdate(RecoleccionBase):
-    fecha_inicio: datetime = None | None
-    fecha_fin: datetime = None | None
-    peso: float = None | None
-    observaciones: str = None | None
-    detalle: str = None | None
-    vehiculo_id: UUID = None | None
-    ruta_id: UUID = None | None
-    tipo_residuo_id: UUID = None | None
+    fecha_inicio: datetime | None = None
+    fecha_fin: datetime | None = None
+    peso: float | None = None
+    observaciones: str | None = None
+    detalle: str | None = None
+    vehiculo_id: UUID | None = None
+    ruta_id: UUID | None = None
+    tipo_residuo_id: UUID | None = None
 
-class Recoleccion(TableBase, RecoleccionBase):
-    pass
-
+class Recoleccion(TableBase, RecoleccionBase, table=True):
+    id: UUID | None = Field(primary_key=True, default_factory=uuid4)
