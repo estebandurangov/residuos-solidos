@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "residuos-solidos"
+version = "0.1.0"
+description = "proyecto integrador 2"
+authors = ["Esteban Durango <esteban.durangov@udea.edu.co>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = {extras = ["standard"], version = "^0.115.3"}
+sqlmodel = "^0.0.22"
+alembic = "^1.13.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+package-mode = false 
