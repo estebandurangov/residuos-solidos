@@ -3,7 +3,7 @@ from fastapi.responses import JSONResponse
 from sqlmodel import Session
 from uuid import uuid4
 
-from app.model.recoleccion import RecoleccionCreate, RecoleccionUpdate, Recoleccion
+from app.model.recoleccion.recoleccion import RecoleccionCreate, RecoleccionUpdate, Recoleccion
 
 from app.config.db import get_session
 

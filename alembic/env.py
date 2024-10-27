@@ -23,6 +23,32 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
+
+# Barrido
+from app.model.barrido.barrido import Barrido
+from app.model.barrido.usuario_barrido import UsuarioBarrido
+
+#Recoleccion
+from app.model.recoleccion.recoleccion_particular import RecoleccionParticular
+from app.model.recoleccion.recoleccion import Recoleccion
+from app.model.recoleccion.usuario_recoleccion import UsuarioRecoleccion
+from app.model.recoleccion.vehiculo import Vehiculo
+
+#Residuo
+from app.model.residuo.tipo_residuo import TipoResiduo
+
+#Ruta
+from app.model.ruta.ruta import Ruta
+from app.model.ruta.tipo_ruta import TipoRuta
+from app.model.ruta.punto_recoleccion_ruta import PuntoRecoleccionRuta
+from app.model.ruta.punto_recoleccion import PuntoRecoleccion
+
+#Usuario
+from app.model.usuario.rol import Rol
+from app.model.usuario.usuario import Usuario
+from app.model.usuario.users import Users
+
+from app.model.table_base import TableBase
 target_metadata = SQLModel.metadata
 
 # other values from the config, defined by the needs of env.py,
