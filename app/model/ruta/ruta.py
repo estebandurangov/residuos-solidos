@@ -3,10 +3,9 @@ from sqlmodel import Field, SQLModel, Relationship
 from typing import TYPE_CHECKING, List, Optional
 from app.model.table_base import TableBase
 from app.model.ruta.punto_recoleccion_ruta import PuntoRecoleccionRuta
-
+from app.model.ruta.punto_recoleccion import PuntoRecoleccion
 if TYPE_CHECKING:
     from app.model.recoleccion.recoleccion import Recoleccion
-    from app.model.ruta.punto_recoleccion import PuntoRecoleccion
     from app.model.barrido.barrido import Barrido
     
 class RutaBase(SQLModel):
@@ -28,4 +27,4 @@ class Ruta(TableBase, RutaBase, table=True):
     id: UUID = Field(default_factory=uuid4, primary_key=True)
     recolecciones: list["Recoleccion"] = Relationship(back_populates="ruta")
     barridos: list["Barrido"] = Relationship(back_populates="ruta")
-    puntos_recoleccion: list["PuntoRecoleccion"] = Relationship(back_populates="rutas", link_model=PuntoRecoleccionRuta)
+    puntos_recoleccion: list[PuntoRecoleccion] = Relationship(back_populates="rutas", link_model=PuntoRecoleccionRuta)

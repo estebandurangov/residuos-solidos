@@ -4,12 +4,16 @@ from app.model.table_base import TableBase
 from sqlmodel import Field, SQLModel, Relationship
 from datetime import datetime
 
+from app.model.recoleccion.usuario_recoleccion import UsuarioRecoleccion
 from app.model.recoleccion.vehiculo import Vehiculo
 from app.model.ruta.ruta import Ruta
-from app.model.residuo.tipo_residuo import TipoResiduo
+# 
 
 if TYPE_CHECKING:
-    from app.model.recoleccion.recoleccion_particular import RecoleccionParticular
+    from app.model.usuario.usuario import Usuario
+from app.model.residuo.tipo_residuo import TipoResiduo
+from app.model.recoleccion.recoleccion_particular import RecoleccionParticular
+
 
 class RecoleccionBase(SQLModel):
     fecha_inicio: datetime
@@ -38,7 +42,9 @@ class RecoleccionUpdate(RecoleccionBase):
 class Recoleccion(TableBase, RecoleccionBase, table=True):
     id: UUID | None = Field(primary_key=True, default_factory=uuid4)
 
+    usuarios: 'Usuario' = Relationship(back_populates="recolecciones", link_model=UsuarioRecoleccion)
+
     vehiculo: Vehiculo = Relationship(back_populates="recolecciones")
-    ruta: Ruta = Relationship(back_populates="recolecciones")
     tipo_residuo: TipoResiduo = Relationship(back_populates="recolecciones")
-    recolecciones_particulares: list["RecoleccionParticular"] = Relationship(back_populates="recoleccion")
+    ruta: Ruta = Relationship(back_populates="recolecciones")
+    recolecciones_particulares: list[RecoleccionParticular] = Relationship(back_populates="recoleccion")

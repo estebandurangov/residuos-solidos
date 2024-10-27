@@ -21,7 +21,7 @@ class PuntoRecoleccionUpdate(PuntoRecoleccionBase):
 
 class PuntoRecoleccion(TableBase, PuntoRecoleccionBase, table=True):
     id: UUID = Field(default=None, primary_key=True)
-    rutas: list["Ruta"] = Relationship(back_populates="puntos_recoleccion", link_model=PuntoRecoleccionRuta)
+    rutas: list['Ruta'] = Relationship(back_populates="puntos_recoleccion", link_model=PuntoRecoleccionRuta)
     
 
     

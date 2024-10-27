@@ -5,9 +5,12 @@ from sqlmodel import Field, SQLModel, Relationship
 
 from app.model.table_base import TableBase
 
+from app.model.barrido.usuario_barrido import UsuarioBarrido
+
 if TYPE_CHECKING:
-    from app.model.ruta.ruta import Ruta
+    from app.model.usuario.usuario import Usuario
     from app.model.residuo.tipo_residuo import TipoResiduo
+    from app.model.ruta.ruta import Ruta
 
 class BarridoBase(SQLModel):
     fecha_inicio: datetime
@@ -32,5 +35,7 @@ class BarridoUpdate(BarridoBase):
 
 class Barrido(TableBase, BarridoBase, table=True):
     id: UUID = Field(default_factory=uuid4, primary_key=True)
-    ruta: "Ruta" = Relationship(back_populates="barridos")
-    tipo_residuo: "TipoResiduo" = Relationship(back_populates="barridos")
+    usuarios: 'Usuario' = Relationship(back_populates="barridos", link_model=UsuarioBarrido)
+    tipo_residuo: 'TipoResiduo' = Relationship(back_populates="barridos")
+    ruta: 'Ruta' = Relationship(back_populates="barridos")
+    

@@ -4,9 +4,11 @@ from uuid import UUID, uuid4
 
 from app.model.table_base import TableBase
 
-from app.model.recoleccion.recoleccion import Recoleccion
+if TYPE_CHECKING:
+    from app.model.recoleccion.recoleccion import Recoleccion
 
 class RecoleccionParticularBase(SQLModel):
+    recoleccion_id: UUID = Field(foreign_key="recoleccion.id")
     metraje: float
     tipo_documento_responsable: str
     documento_responsable: str
@@ -26,4 +28,4 @@ class RecoleccionParticularUpdate(RecoleccionParticularBase):
 class RecoleccionParticular(TableBase, RecoleccionParticularBase, table=True):
     id: UUID = Field(default_factory=uuid4, primary_key=True)
 
-    recoleccion: Recoleccion = Relationship(back_populates="recolecciones_particulares")
+    recoleccion: 'Recoleccion' = Relationship(back_populates="recolecciones_particulares")

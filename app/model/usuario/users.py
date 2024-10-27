@@ -5,8 +5,7 @@ from uuid import UUID
 from typing import TYPE_CHECKING, Optional
 from pydantic import conint
 
-if TYPE_CHECKING:
-    from app.model.usuario.usuario import Usuario
+from app.model.usuario.usuario import Usuario
 
 class Users(SQLModel, table=True):
     __tablename__ = "users"
