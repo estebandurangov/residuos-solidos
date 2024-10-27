@@ -21,4 +21,4 @@ class TipoRutaUpdate(TipoRutaBase):
 
 class TipoRuta(TableBase, TipoRutaBase, table=True):
     id: UUID = Field(default_factory=uuid4, primary_key=True)
-    rutas: list["Ruta"] = Relationship(back_populates="tipo_ruta")
+    rutas: list['Ruta'] = Relationship(back_populates="tipo_ruta")

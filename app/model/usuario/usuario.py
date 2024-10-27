@@ -17,7 +17,7 @@ if TYPE_CHECKING:
 
 
 class UsuarioBase(SQLModel):
-    # id: UUID = Field(foreign_key="auth.users.id", primary_key=True)
+    id: UUID = Field(primary_key=True, foreign_key="auth.users.id")
     rol_id: UUID = Field(foreign_key="rol.id")
 
 class UsuarioCreate(UsuarioBase):
@@ -27,7 +27,7 @@ class UsuarioUpdate(UsuarioBase):
     rol_id: UUID | None = None
 
 class Usuario(TableBase, UsuarioBase, table=True):
-    id: UUID = Field(default_factory=uuid4, primary_key=True, foreign_key="auth.users.id")
+    
     rol: Rol = Relationship(back_populates="usuarios")
 
     recolecciones: Recoleccion = Relationship(back_populates="usuarios", link_model=UsuarioRecoleccion)

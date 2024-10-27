@@ -21,7 +21,7 @@ class RecoleccionBase(SQLModel):
     peso: float
     observaciones: str
     detalle: str
-    vehiculo_id: UUID = Field(foreign_key="vehiculo.id")
+    vehiculo_placa: str = Field(foreign_key="vehiculo.placa")
     ruta_id: UUID = Field(foreign_key="ruta.id")
     tipo_residuo_id: UUID = Field(foreign_key="tiporesiduo.id")
 
