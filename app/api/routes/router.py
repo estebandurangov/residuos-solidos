@@ -11,6 +11,10 @@ router.include_router(recoleccion.router, prefix="/recoleccion", tags=["Recolecc
 router.include_router(recoleccion_particular.router, prefix="/recoleccion", tags=["Recolección"])
 router.include_router(user.router, prefix="/user", tags=["user"])
 
+#Barrido
+from app.api.routes.barrido import barrido
+router.include_router(barrido.router, prefix="/barrido", tags=["Barrido"])
+
 #Ruta
 from app.api.routes.ruta import ruta
 router.include_router(ruta.router, prefix="/ruta", tags=["Ruta"])

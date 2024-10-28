@@ -30,3 +30,6 @@ class Ruta(TableBase, RutaBase, table=True):
     barridos: list["Barrido"] = Relationship(back_populates="ruta")
     puntos_recoleccion: list[PuntoRecoleccion] = Relationship(back_populates="rutas", link_model=PuntoRecoleccionRuta)
     tipo_ruta: Optional[TipoRuta] = Relationship(back_populates="rutas")
+
+class RutaRead(SQLModel):
+    nombre: str

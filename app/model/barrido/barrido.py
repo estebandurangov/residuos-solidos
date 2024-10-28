@@ -35,7 +35,16 @@ class BarridoUpdate(BarridoBase):
 
 class Barrido(TableBase, BarridoBase, table=True):
     id: UUID = Field(default_factory=uuid4, primary_key=True)
-    usuarios: 'Usuario' = Relationship(back_populates="barridos", link_model=UsuarioBarrido)
+    usuarios: list['Usuario'] = Relationship(back_populates="barridos", link_model=UsuarioBarrido)
     tipo_residuo: 'TipoResiduo' = Relationship(back_populates="barridos")
     ruta: 'Ruta' = Relationship(back_populates="barridos")
+
+class BarridoRead(BarridoBase):
+    id: UUID
+
+from app.model.ruta.ruta import RutaRead
+#from app.model.usuario.usuario import UsuarioRead
+class BarridoWithRuta(BarridoRead):
+    ruta: RutaRead | None = None
+    #usuarios: list[UsuarioRead] = []
     

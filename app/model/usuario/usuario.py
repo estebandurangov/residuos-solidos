@@ -5,14 +5,14 @@ from sqlmodel import Field, SQLModel, Relationship
 from app.model.table_base import TableBase
 
 from app.model.recoleccion.usuario_recoleccion import UsuarioRecoleccion
-from app.model.recoleccion.recoleccion import Recoleccion
-from app.model.barrido.barrido import Barrido
 from app.model.barrido.usuario_barrido import UsuarioBarrido
 
 from app.model.usuario.rol import Rol
 
 if TYPE_CHECKING:
     from app.model.usuario.users import Users
+    from app.model.recoleccion.recoleccion import Recoleccion
+    from app.model.barrido.barrido import Barrido
 
 
 class UsuarioBase(SQLModel):
@@ -35,6 +35,9 @@ class Usuario(TableBase, UsuarioBase, table=True):
     
     rol: Rol = Relationship(back_populates="usuarios")
 
-    recolecciones: Recoleccion = Relationship(back_populates="usuarios", link_model=UsuarioRecoleccion)
-    barridos: Barrido = Relationship(back_populates="usuarios", link_model=UsuarioBarrido)
+    recolecciones: list['Recoleccion'] = Relationship(back_populates="usuarios", link_model=UsuarioRecoleccion)
+    barridos: list['Barrido'] = Relationship(back_populates="usuarios", link_model=UsuarioBarrido)
     user: "Users" = Relationship(back_populates="usuario")
+
+class UsuarioRead(UsuarioBase):
+    id: UUID

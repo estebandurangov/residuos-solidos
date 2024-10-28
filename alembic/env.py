@@ -35,13 +35,16 @@ from app.model.recoleccion.usuario_recoleccion import UsuarioRecoleccion
 from app.model.recoleccion.vehiculo import Vehiculo
 
 #Residuo
+from app.model.residuo.residuo import Residuo
 from app.model.residuo.tipo_residuo import TipoResiduo
+
 
 #Ruta
 from app.model.ruta.ruta import Ruta
 from app.model.ruta.tipo_ruta import TipoRuta
 from app.model.ruta.punto_recoleccion_ruta import PuntoRecoleccionRuta
 from app.model.ruta.punto_recoleccion import PuntoRecoleccion
+from app.model.ruta.promedio_residuos import PromedioResiduos
 
 #Usuario
 from app.model.usuario.rol import Rol

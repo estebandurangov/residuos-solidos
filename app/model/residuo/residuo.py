@@ -6,20 +6,19 @@ from app.model.table_base import TableBase
 if TYPE_CHECKING:
     from app.model.residuo.tipo_residuo import TipoResiduo
 
-class SubTipoResiduoBase(SQLModel):
+class ResiduoBase(SQLModel):
     categoria: str
     descripcion: str
     observacion: str
-    tipo_residuo_id: UUID = Field(foreign_key="tiporesiduo.id")
 
-class SubTipoResiduoCreate(SubTipoResiduoBase):
+class ResiduoCreate(ResiduoBase):
     pass
 
-class SubTipoResiduoUpdate(SubTipoResiduoBase):
+class ResiduoUpdate(ResiduoBase):
     categoria: str | None = None
     descripcion: str | None = None
     observacion: str | None = None
 
-class SubTipoResiduo(TableBase, SubTipoResiduoBase, table=True):
+class Residuo(TableBase, ResiduoBase, table=True):
     id: UUID = Field(default_factory=uuid4, primary_key=True)
-    tipo_residuo: TipoResiduo = Relationship(back_populates="sub_tipos_residuo")
+    tipos_residuos: list['TipoResiduo'] = Relationship(back_populates="residuo")
