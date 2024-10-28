@@ -43,8 +43,8 @@ class BarridoRead(BarridoBase):
     id: UUID
 
 from app.model.ruta.ruta import RutaRead
-#from app.model.usuario.usuario import UsuarioRead
+from app.model.usuario.usuario import UsuarioRead
 class BarridoWithRuta(BarridoRead):
-    ruta: RutaRead | None = None
-    #usuarios: list[UsuarioRead] = []
+    ruta: RutaRead
+    usuarios: list[UsuarioRead] = []
     

@@ -39,5 +39,5 @@ class Usuario(TableBase, UsuarioBase, table=True):
     barridos: list['Barrido'] = Relationship(back_populates="usuarios", link_model=UsuarioBarrido)
     user: "Users" = Relationship(back_populates="usuario")
 
-class UsuarioRead(UsuarioBase):
-    id: UUID
+class UsuarioRead(SQLModel):
+    nombre: str

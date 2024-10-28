@@ -11,8 +11,8 @@ from app.model.residuo.tipo_residuo import TipoResiduo
 
 if TYPE_CHECKING:
     from app.model.usuario.usuario import Usuario
-    
     from app.model.ruta.ruta import Ruta
+
 from app.model.recoleccion.recoleccion_particular import RecoleccionParticular
 
 
