@@ -44,7 +44,7 @@ class BarridoRead(BarridoBase):
 
 from app.model.ruta.ruta import RutaRead
 from app.model.usuario.usuario import UsuarioRead
-class BarridoWithRuta(BarridoRead):
+class BarridoWithData(BarridoRead):
     ruta: RutaRead
     usuarios: list[UsuarioRead] = []
     

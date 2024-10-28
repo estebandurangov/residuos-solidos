@@ -3,7 +3,7 @@ from fastapi.responses import JSONResponse
 from sqlmodel import Session
 from uuid import UUID
 
-from app.model.barrido.barrido import BarridoCreate, BarridoUpdate, Barrido, BarridoWithRuta
+from app.model.barrido.barrido import BarridoCreate, BarridoUpdate, Barrido, BarridoWithData
 from app.service.barrido.barrido import BarridoService
 
 from app.config.db import get_session
@@ -22,9 +22,9 @@ def get_all(db: Session = Depends(get_session)):
     barridos = BarridoService(db).get_all()
     return barridos
 
-@router.get("/{barrido_id}", tags=tags, response_model=BarridoWithRuta)
+@router.get("/{barrido_id}", tags=tags, response_model=BarridoWithData)
 def get_by_id(barrido_id: UUID, db: Session = Depends(get_session)):
     barrido = BarridoService(db).get_by_id(barrido_id)
     if not barrido:
         return JSONResponse(status_code=404, content={"message": "Barrido not found"})
-    return BarridoWithRuta.model_validate(barrido)
+    return BarridoWithData.model_validate(barrido)
