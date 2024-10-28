@@ -4,7 +4,6 @@ from sqlmodel import Field, SQLModel, Relationship
 
 from app.model.table_base import TableBase
 
-
 from app.model.recoleccion.usuario_recoleccion import UsuarioRecoleccion
 from app.model.recoleccion.recoleccion import Recoleccion
 from app.model.barrido.barrido import Barrido
@@ -18,12 +17,18 @@ if TYPE_CHECKING:
 
 class UsuarioBase(SQLModel):
     id: UUID = Field(primary_key=True, foreign_key="auth.users.id")
+    nombre: str
+    tipo_documento: str
+    documento: str
     rol_id: UUID = Field(foreign_key="rol.id")
 
 class UsuarioCreate(UsuarioBase):
     pass
 
 class UsuarioUpdate(UsuarioBase):
+    nombre: str | None = None
+    tipo_documento: str | None = None
+    documento: str | None = None
     rol_id: UUID | None = None
 
 class Usuario(TableBase, UsuarioBase, table=True):

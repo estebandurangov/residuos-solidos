@@ -27,5 +27,4 @@ class RecoleccionParticularUpdate(RecoleccionParticularBase):
 
 class RecoleccionParticular(TableBase, RecoleccionParticularBase, table=True):
     id: UUID = Field(default_factory=uuid4, primary_key=True)
-
     recoleccion: 'Recoleccion' = Relationship(back_populates="recolecciones_particulares")

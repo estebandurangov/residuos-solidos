@@ -9,16 +9,20 @@ if TYPE_CHECKING:
     from app.model.recoleccion.recoleccion import Recoleccion
 
 class TipoResiduoBase(SQLModel):
-    nombre: str
+    categoria: str
+    descripcion: str
+    observacion: str
 
 class TipoResiduoCreate(TipoResiduoBase):
     pass
 
 class TipoResiduoUpdate(TipoResiduoBase):
-    nombre: Optional[str] = None
+    categoria: str | None = None
+    descripcion: str | None = None
+    observacion: str | None = None
 
 class TipoResiduo(TableBase, TipoResiduoBase, table=True):
     id: UUID = Field(default_factory=uuid4, primary_key=True)
-
     recolecciones: list['Recoleccion'] = Relationship(back_populates="tipo_residuo")
     barridos: list[Barrido] = Relationship(back_populates="tipo_residuo")
+    sub_tipos_residuo: list['SubTipoResiduo'] = Relationship(back_populates="tipo_residuo")

@@ -19,9 +19,9 @@ class RecoleccionBase(SQLModel):
     fecha_inicio: datetime
     fecha_fin: datetime
     peso: float
-    observaciones: str
+    observacion: str
     detalle: str
-    vehiculo_placa: str = Field(foreign_key="vehiculo.placa")
+    vehiculo_id: str = Field(foreign_key="vehiculo.placa")
     ruta_id: UUID = Field(foreign_key="ruta.id")
     tipo_residuo_id: UUID = Field(foreign_key="tiporesiduo.id")
 
@@ -33,7 +33,7 @@ class RecoleccionUpdate(RecoleccionBase):
     fecha_inicio: datetime | None = None
     fecha_fin: datetime | None = None
     peso: float | None = None
-    observaciones: str | None = None
+    observacion: str | None = None
     detalle: str | None = None
     vehiculo_id: UUID | None = None
     ruta_id: UUID | None = None
@@ -41,9 +41,7 @@ class RecoleccionUpdate(RecoleccionBase):
 
 class Recoleccion(TableBase, RecoleccionBase, table=True):
     id: UUID | None = Field(primary_key=True, default_factory=uuid4)
-
     usuarios: 'Usuario' = Relationship(back_populates="recolecciones", link_model=UsuarioRecoleccion)
-
     vehiculo: Vehiculo = Relationship(back_populates="recolecciones")
     tipo_residuo: TipoResiduo = Relationship(back_populates="recolecciones")
     ruta: Ruta = Relationship(back_populates="recolecciones")
