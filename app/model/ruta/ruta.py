@@ -5,6 +5,7 @@ from app.model.table_base import TableBase
 from app.model.ruta.punto_recoleccion_ruta import PuntoRecoleccionRuta
 from app.model.ruta.punto_recoleccion import PuntoRecoleccion
 from app.model.ruta.tipo_ruta import TipoRuta
+
 if TYPE_CHECKING:
     from app.model.recoleccion.recoleccion import Recoleccion
     from app.model.barrido.barrido import Barrido
