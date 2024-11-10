@@ -28,3 +28,24 @@ def get_by_id(barrido_id: UUID, db: Session = Depends(get_session)):
     if not barrido:
         return JSONResponse(status_code=404, content={"message": "Barrido not found"})
     return BarridoWithData.model_validate(barrido)
+
+@router.put("/update/{barrido_id}", tags=tags, response_model=Barrido)
+def update(barrido_id: UUID, barrido: BarridoUpdate, db: Session = Depends(get_session)):
+    barrido_db = db.get(Barrido, barrido_id)
+    if not barrido_db:
+        return JSONResponse(status_code=404, content={"message": "Barrido not found"})
+
+    for key, value in barrido.dict(exclude_unset=True).items():
+        setattr(barrido_db, key, value)
+
+    db.add(barrido_db)
+    db.commit()
+    db.refresh(barrido_db)
+    return barrido_db
+
+@router.delete("/delete/{barrido_id}", tags=tags, response_model=dict)
+def delete(barrido_id: UUID, db: Session = Depends(get_session)):
+    barrido = BarridoService(db).delete(barrido_id)
+    if not barrido:
+        return JSONResponse(status_code=404, content={"message": "Barrido not found"})
+    return {"ok": True}

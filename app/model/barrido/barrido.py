@@ -12,6 +12,7 @@ if TYPE_CHECKING:
     from app.model.residuo.tipo_residuo import TipoResiduo
     from app.model.ruta.ruta import Ruta
 
+
 class BarridoBase(SQLModel):
     fecha_inicio: datetime
     fecha_fin: datetime
@@ -21,8 +22,10 @@ class BarridoBase(SQLModel):
     ruta_id: UUID = Field(foreign_key="ruta.id")
     tipo_residuo_id: UUID = Field(foreign_key="tiporesiduo.id")
 
+
 class BarridoCreate(BarridoBase):
     pass
+
 
 class BarridoUpdate(BarridoBase):
     fecha_inicio: datetime | None = None
@@ -33,18 +36,24 @@ class BarridoUpdate(BarridoBase):
     ruta_id: UUID | None = None
     tipo_residuo_id: UUID | None = None
 
+
 class Barrido(TableBase, BarridoBase, table=True):
     id: UUID = Field(default_factory=uuid4, primary_key=True)
     usuarios: list['Usuario'] = Relationship(back_populates="barridos", link_model=UsuarioBarrido)
     tipo_residuo: 'TipoResiduo' = Relationship(back_populates="barridos")
     ruta: 'Ruta' = Relationship(back_populates="barridos")
 
+
 class BarridoRead(BarridoBase):
     id: UUID
 
+
+from app.model.residuo.tipo_residuo import TipoResiduoRead
 from app.model.ruta.ruta import RutaRead
 from app.model.usuario.usuario import UsuarioRead
+
+
 class BarridoWithData(BarridoRead):
+    tipo_residuo: TipoResiduoRead
     ruta: RutaRead
     usuarios: list[UsuarioRead] = []
-    
