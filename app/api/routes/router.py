@@ -18,3 +18,7 @@ router.include_router(barrido.router, prefix="/barrido", tags=["Barrido"])
 #Ruta
 from app.api.routes.ruta import ruta
 router.include_router(ruta.router, prefix="/ruta", tags=["Ruta"])
+
+#TipoResiduo
+from app.api.routes.tipoResiduo import tipoResiduo
+router.include_router(tipoResiduo.router, prefix="/tipo_residuo", tags=["TipoResiduo"])
