@@ -8,7 +8,7 @@ router = APIRouter()
 #Recolección
 from app.api.routes.recoleccion import recoleccion_particular
 router.include_router(recoleccion.router, prefix="/recoleccion", tags=["Recolección"])
-router.include_router(recoleccion_particular.router, prefix="/recoleccion", tags=["Recolección"])
+router.include_router(recoleccion_particular.router, prefix="/recoleccion_particular", tags=["Recolección Particular"])
 router.include_router(user.router, prefix="/user", tags=["user"])
 
 #Barrido
@@ -22,3 +22,7 @@ router.include_router(ruta.router, prefix="/ruta", tags=["Ruta"])
 #TipoResiduo
 from app.api.routes.tipoResiduo import tipoResiduo
 router.include_router(tipoResiduo.router, prefix="/tipo_residuo", tags=["TipoResiduo"])
+
+#Vehiculo
+from app.api.routes.recoleccion import vehiculo
+router.include_router(vehiculo.router, prefix="/vehiculo", tags=["Vehiculo"])
