@@ -3,23 +3,21 @@ from fastapi.responses import JSONResponse
 from sqlmodel import Session, select
 from uuid import uuid4
 
-from app.model.usuario.users import UserBase, Users
-from app.model.usuario.usuario import Usuario, UsuarioCreate, UsuarioUpdate
-from app.service.usuario.usuario import UsuarioService
+from app.model.usuario.users import UserCreate, Users
+from app.service.usuario.user import UserService
 
 from app.config.db import get_session
 
 router = APIRouter()
 
-tags = ["user"]
+tags = ["User"]
 
-@router.get("/all", response_model=list[UserBase], tags=tags, status_code=200)
-def get_all_users(session: Session = Depends(get_session)):
-    with session as db:
-        users = db.exec(select(Users)).all()
-    return [UserBase.model_validate(user.model_dump()) for user in users]
+@router.post("/create", response_model=Users, tags=tags, status_code=201)
+def create_user(user: UserCreate, db: Session = Depends(get_session)):
+    user_db = UserService(db).create(user)
+    return user_db
 
-@router.post("/create", response_model=Usuario, tags=tags, status_code=201)
-def create_user(user: UsuarioCreate, db: Session = Depends(get_session)):
-    usuario_db = UsuarioService(db).create(user)
-    return usuario_db
+@router.get("/all", response_model=list[Users], tags=tags)
+def get_all(db: Session = Depends(get_session)):
+    users = UserService(db).get_all()
+    return users

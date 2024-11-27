@@ -53,6 +53,17 @@ class Users(SQLModel, table=True):
     class Config:
         arbitrary_types_allowed = True
 
+
 class UserBase(SQLModel):
     id: UUID
     email: str
+
+class UserCreate(UserBase):
+    pass
+
+class UserRead(UserBase):
+    pass
+
+class UserUpdate(UserBase):
+    email: str | None = None
+

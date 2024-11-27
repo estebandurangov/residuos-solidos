@@ -4,6 +4,7 @@ from sqlmodel import Session
 from uuid import UUID
 
 from app.model.recoleccion.recoleccion import RecoleccionCreate, RecoleccionUpdate, Recoleccion, RecoleccionWithData
+from app.model.recoleccion.usuario_recoleccion import UsuarioRecoleccion
 from app.service.recoleccion.recoleccion import RecoleccionService
 
 from app.config.db import get_session
@@ -49,3 +50,32 @@ def delete(recoleccion_id: UUID, db: Session = Depends(get_session)):
     if not recoleccion:
         return JSONResponse(status_code=404, content={"message": "Recolección not found"})
     return {"ok": True}
+
+@router.post("/{recoleccion_id}/assign_users", tags=tags, response_model=dict)
+def assign_users_to_recoleccion(recoleccion_id: UUID, user_ids: list[UUID], db: Session = Depends(get_session)):
+    recoleccion = db.get(Recoleccion, recoleccion_id)
+    if not recoleccion:
+        return JSONResponse(status_code=404, content={"message": "Recolección not found"})
+
+    for user_id in user_ids:
+        if user_id not in [user.id for user in recoleccion.usuarios]:
+            usuario_recoleccion = UsuarioRecoleccion(recoleccion_id=recoleccion_id, usuario_id=user_id)
+            db.add(usuario_recoleccion)
+
+    db.commit()
+    return {"message": "Users successfully assigned"}
+
+@router.put("/{recoleccion_id}/update_users", tags=tags, response_model=dict)
+def update_users_in_recoleccion(recoleccion_id: UUID, user_ids: list[UUID], db: Session = Depends(get_session)):
+    recoleccion = db.get(Recoleccion, recoleccion_id)
+    if not recoleccion:
+        return JSONResponse(status_code=404, content={"message": "Recolección not found"})
+
+    db.query(UsuarioRecoleccion).filter(UsuarioRecoleccion.recoleccion_id == recoleccion_id).delete()
+
+    for user_id in user_ids:
+        usuario_recoleccion = UsuarioRecoleccion(recoleccion_id=recoleccion_id, usuario_id=user_id)
+        db.add(usuario_recoleccion)
+
+    db.commit()
+    return {"message": "Usuarios actualizados con éxito"}
