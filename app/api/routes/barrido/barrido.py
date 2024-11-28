@@ -2,9 +2,13 @@ from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 from sqlmodel import Session
 from uuid import UUID
+from sqlalchemy import func
+from sqlmodel import select
 
 from app.model.barrido.barrido import BarridoCreate, BarridoUpdate, Barrido, BarridoWithData
 from app.model.barrido.usuario_barrido import UsuarioBarrido
+from app.model.residuo.tipo_residuo import TipoResiduo
+from app.model.ruta.ruta import Ruta
 from app.service.barrido.barrido import BarridoService
 
 from app.config.db import get_session
@@ -79,3 +83,45 @@ def update_users_in_barrido(barrido_id: UUID, user_ids: list[UUID], db: Session 
 
     db.commit()
     return {"message": "Usuarios actualizados con éxito"}
+
+@router.get("/stats/barridos-per-date", tags=tags, response_model=dict)
+def get_barridos_per_month(db: Session = Depends(get_session)):
+    query = (
+        db.query(func.date_trunc('month', Barrido.fecha_inicio).label('month'), func.count(Barrido.id).label('total'))
+        .group_by('month')
+        .order_by('month')
+    )
+    results = query.all()
+    return {"data": [{"date": result[0], "total": result[1]} for result in results]}
+
+@router.get("/stats/barridos-kg-per-date", tags=tags, response_model=dict)
+def get_barridos_kg_per_date(db: Session = Depends(get_session)):
+    query = (
+        db.query(func.date_trunc('month', Barrido.fecha_inicio).label('month'), func.sum(Barrido.peso).label('total'))
+        .group_by('month')
+        .order_by('month')
+    )
+    results = query.all()
+    return {"data": [{"date": result[0], "total": result[1]} for result in results]}
+
+@router.get("/stats/barridos-per-tipo-residuo", tags=tags, response_model=dict)
+def get_barridos_per_tipo_residuo(db: Session = Depends(get_session)):
+    query = (
+        db.query(TipoResiduo.categoria, func.count(Barrido.id).label('total'))
+        .join(TipoResiduo, Barrido.tipo_residuo_id == TipoResiduo.id)
+        .group_by(TipoResiduo.categoria)
+        .order_by('total')
+    )
+    results = query.all()
+    return {"data": [{"type": result[0], "total": result[1]} for result in results]}
+
+@router.get("/stats/barridos-per-ruta", tags=tags, response_model=dict)
+def get_barridos_per_ruta(db: Session = Depends(get_session)):
+    query = (
+        db.query(Ruta.nombre, func.count(Barrido.id).label('total'))
+        .join(Ruta, Barrido.ruta_id == Ruta.id)
+        .group_by(Ruta.nombre)
+        .order_by('total')
+    )
+    results = query.all()
+    return {"data": [{"type": result[0], "total": result[1]} for result in results]}
